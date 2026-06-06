@@ -82,3 +82,212 @@ table.movimientos th, table.movimientos td{padding:10px;border-bottom:1px solid 
 /* responsive rules */
 @media (max-width:900px){.operation-card{width:45%}.login{margin:40px 16px}}
 @media (max-width:600px){.operation-card{width:100%}.header{flex-direction:column;gap:10px;padding:12px}}
+
+/* Modals and Overlays */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  backdrop-filter: blur(4px);
+  padding: 20px;
+}
+
+.modal {
+  background: var(--glass-bg);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  padding: 40px;
+  position: relative;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  overflow-y: auto;
+  text-align: center;
+}
+
+.modal-overlay:has(.table-container) .modal {
+  max-width: 800px;
+}
+
+.btn-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(0,0,0,0.05);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-close:hover {
+  background: rgba(0,0,0,0.1);
+}
+.btn-close img {
+  width: 24px;
+  height: 24px;
+}
+
+.result-icon {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 20px;
+}
+.result-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.modal-message {
+  font-size: 1.1rem;
+  color: #555;
+  margin: 20px 0;
+}
+
+.modal-header {
+  margin-bottom: 30px;
+  text-align: center;
+}
+.modal-header-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 15px;
+  background: rgba(10, 61, 98, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-header-icon img {
+  width: 32px;
+  height: 32px;
+}
+.account-number {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-top: 5px;
+  background: rgba(10, 61, 98, 0.05);
+  display: inline-block;
+  padding: 5px 15px;
+  border-radius: 20px;
+}
+
+.empty-state {
+  padding: 40px 20px;
+  text-align: center;
+}
+.empty-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+}
+.empty-icon img {
+  width: 100%;
+  height: 100%;
+  opacity: 0.6;
+}
+.empty-state p {
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 20px;
+}
+.help-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: rgba(243, 156, 18, 0.1);
+  color: #d35400;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+}
+.help-message img {
+  width: 20px;
+  height: 20px;
+}
+
+.table-container {
+  overflow-x: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+.table-container table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+.table-container th {
+  background: var(--primary);
+  color: white;
+  padding: 15px;
+  text-align: left;
+  font-weight: 600;
+}
+.table-container td {
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+  vertical-align: middle;
+}
+.table-container tr:last-child td {
+  border-bottom: none;
+}
+.tr-ingreso { background-color: rgba(46, 204, 113, 0.05); }
+.tr-salida { background-color: rgba(231, 76, 60, 0.05); }
+.importe-ingreso { color: var(--success); font-size: 1.1rem; }
+.importe-salida { color: var(--error); font-size: 1.1rem; }
+.badge-deposito { background: var(--success); }
+.badge-retiro { background: var(--error); }
+.badge-transferencia { background: var(--accent); }
+
+.btn-back {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.15);
+  color: white;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+.btn-back:hover {
+  background: rgba(255,255,255,0.25);
+}
+.btn-back img {
+  width: 20px;
+  height: 20px;
+}
+
+/* Confetti animation */
+.confetti {
+  position: fixed;
+  top: -10px;
+  width: 10px;
+  height: 10px;
+  background-color: var(--secondary);
+  animation: fall linear infinite;
+  z-index: 9999;
+}
+.confetti:nth-child(2n) { background-color: var(--success); }
+.confetti:nth-child(3n) { background-color: var(--accent); }
+.confetti:nth-child(4n) { background-color: var(--error); }
+
+@keyframes fall {
+  0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}

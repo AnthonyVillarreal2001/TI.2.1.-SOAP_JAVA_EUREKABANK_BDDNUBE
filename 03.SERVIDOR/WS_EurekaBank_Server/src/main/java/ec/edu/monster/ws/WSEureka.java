@@ -50,6 +50,8 @@ public class WSEureka {
             EurekaService service = new EurekaService();
             lista = service.leerMovimientos(cuenta);
         } catch (Exception e) {
+            System.err.println("Error en traerMovimientos: " + e.getMessage());
+            e.printStackTrace();
             //en caso de error, retorne una lista vacia
             lista = new ArrayList<>();
         }
@@ -80,6 +82,8 @@ public class WSEureka {
             resp.setEstado(1);
             resp.setSaldo(saldo);
         } catch (Exception e) {
+            System.err.println("Error en regDeposito: " + e.getMessage());
+            e.printStackTrace();
             resp.setEstado(-1);
             resp.setSaldo(-1); // o 0, como tú quieras
         }
@@ -105,6 +109,7 @@ public class WSEureka {
             resp.setEstado(-1);
             resp.setSaldo(-1);
             System.err.println("Error al realizar el retiro: " + e.getMessage());
+            e.printStackTrace();
         }
         return resp;
     }
@@ -125,6 +130,8 @@ public class WSEureka {
             resp.setEstado(1);
             resp.setSaldo(saldoOrigen);  // saldo de la cuenta origen
         } catch (Exception e) {
+            System.err.println("Error en regTransferencia: " + e.getMessage());
+            e.printStackTrace();
             resp.setEstado(-1);
             resp.setSaldo(-1);
         }

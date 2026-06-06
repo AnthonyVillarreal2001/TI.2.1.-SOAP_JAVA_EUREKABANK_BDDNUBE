@@ -55,7 +55,7 @@ public class EurekaService {
                 + " t.vch_tipodescripcion tipo, \n"
                 + " t.vch_tipoaccion accion, \n"
                 + " m.dec_moviimporte importe \n"
-                + "FROM tipomovimiento t INNER JOIN movimiento m \n"
+                + "FROM TipoMovimiento t INNER JOIN Movimiento m \n"
                 + "ON t.chr_tipocodigo = m.chr_tipocodigo \n"
                 + "WHERE m.chr_cuencodigo = ? \n"
                 + "ORDER BY m.dtt_movifecha DESC, m.int_movinumero DESC";
@@ -99,7 +99,7 @@ public class EurekaService {
             cn.setAutoCommit(false);
 
             String sql = "select dec_cuensaldo, int_cuencontmov "
-                    + "from cuenta "
+                    + "from Cuenta "
                     + "where chr_cuencodigo = ? and vch_cuenestado = 'ACTIVO' "
                     + "for update";
             PreparedStatement pstm = cn.prepareStatement(sql);
@@ -116,7 +116,7 @@ public class EurekaService {
             // paso 2: actualizar
             saldo += importe;
             cont++;
-            sql = "update cuenta "
+            sql = "update Cuenta "
                     + "set dec_cuensaldo = ?, "
                     + "int_cuencontmov = ? "
                     + "where chr_cuencodigo = ? and vch_cuenestado = 'ACTIVO'";
@@ -128,7 +128,7 @@ public class EurekaService {
             pstm.close();
 
             // paso 3: movimiento
-            sql = "insert into movimiento(chr_cuencodigo,"
+            sql = "insert into Movimiento(chr_cuencodigo,"
                     + "int_movinumero,dtt_movifecha,chr_emplcodigo,chr_tipocodigo,"
                     + "dec_moviimporte) values(?,?,SYSDATE(),?,'003',?)";
             pstm = cn.prepareStatement(sql);
@@ -175,7 +175,7 @@ public class EurekaService {
             cn.setAutoCommit(false);
 
             String sql = "select dec_cuensaldo, int_cuencontmov "
-                    + "from cuenta "
+                    + "from Cuenta "
                     + "where chr_cuencodigo = ? and vch_cuenestado = 'ACTIVO' "
                     + "for update";
             PreparedStatement pstm = cn.prepareStatement(sql);
@@ -197,7 +197,7 @@ public class EurekaService {
 
             saldo -= importe;
             cont++;
-            sql = "update cuenta set dec_cuensaldo = ?, int_cuencontmov = ? "
+            sql = "update Cuenta set dec_cuensaldo = ?, int_cuencontmov = ? "
                     + "where chr_cuencodigo = ? and vch_cuenestado = 'ACTIVO'";
             pstm = cn.prepareStatement(sql);
             pstm.setDouble(1, saldo);
@@ -206,7 +206,7 @@ public class EurekaService {
             pstm.executeUpdate();
             pstm.close();
 
-            sql = "insert into movimiento(chr_cuencodigo, int_movinumero, dtt_movifecha, chr_emplcodigo, chr_tipocodigo, dec_moviimporte) "
+            sql = "insert into Movimiento(chr_cuencodigo, int_movinumero, dtt_movifecha, chr_emplcodigo, chr_tipocodigo, dec_moviimporte) "
                     + "values (?, ?, SYSDATE(), ?, '004', ?)";
             pstm = cn.prepareStatement(sql);
             pstm.setString(1, cuenta);
@@ -245,7 +245,7 @@ public class EurekaService {
 
             // ==== 1. Leer cuenta ORIGEN ====
             String sql = "select dec_cuensaldo, int_cuencontmov "
-                    + "from cuenta "
+                    + "from Cuenta "
                     + "where chr_cuencodigo = ? and vch_cuenestado = 'ACTIVO' "
                     + "for update";
             PreparedStatement pstm = cn.prepareStatement(sql);
@@ -267,7 +267,7 @@ public class EurekaService {
 
             // ==== 2. Leer cuenta DESTINO ====
             sql = "select dec_cuensaldo, int_cuencontmov "
-                    + "from cuenta "
+                    + "from Cuenta "
                     + "where chr_cuencodigo = ? and vch_cuenestado = 'ACTIVO' "
                     + "for update";
             pstm = cn.prepareStatement(sql);
@@ -291,7 +291,7 @@ public class EurekaService {
             contDes++;
 
             // Actualizar cuenta ORIGEN
-            sql = "update cuenta set dec_cuensaldo = ?, int_cuencontmov = ? "
+            sql = "update Cuenta set dec_cuensaldo = ?, int_cuencontmov = ? "
                     + "where chr_cuencodigo = ? and vch_cuenestado = 'ACTIVO'";
             pstm = cn.prepareStatement(sql);
             pstm.setDouble(1, saldoOri);
@@ -301,7 +301,7 @@ public class EurekaService {
             pstm.close();
 
             // Actualizar cuenta DESTINO
-            sql = "update cuenta set dec_cuensaldo = ?, int_cuencontmov = ? "
+            sql = "update Cuenta set dec_cuensaldo = ?, int_cuencontmov = ? "
                     + "where chr_cuencodigo = ? and vch_cuenestado = 'ACTIVO'";
             pstm = cn.prepareStatement(sql);
             pstm.setDouble(1, saldoDes);
@@ -312,7 +312,7 @@ public class EurekaService {
 
             // ==== 4. Registrar movimiento TRANSFERENCIA SALIDA (origen) ====
             // OJO: usa el código que tengas en tipomovimiento (ej: '005')
-            sql = "insert into movimiento(chr_cuencodigo, int_movinumero, dtt_movifecha, "
+            sql = "insert into Movimiento(chr_cuencodigo, int_movinumero, dtt_movifecha, "
                     + "chr_emplcodigo, chr_tipocodigo, dec_moviimporte) "
                     + "values (?, ?, SYSDATE(), ?, '009', ?)";
             pstm = cn.prepareStatement(sql);
@@ -325,7 +325,7 @@ public class EurekaService {
 
             // ==== 5. Registrar movimiento TRANSFERENCIA ENTRADA (destino) ====
             // OJO: código de entrada (ej: '006')
-            sql = "insert into movimiento(chr_cuencodigo, int_movinumero, dtt_movifecha, "
+            sql = "insert into Movimiento(chr_cuencodigo, int_movinumero, dtt_movifecha, "
                     + "chr_emplcodigo, chr_tipocodigo, dec_moviimporte) "
                     + "values (?, ?, SYSDATE(), ?, '008', ?)";
             pstm = cn.prepareStatement(sql);

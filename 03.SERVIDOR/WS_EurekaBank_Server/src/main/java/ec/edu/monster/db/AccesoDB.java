@@ -17,9 +17,9 @@ import java.util.Properties;
  */
 public class AccesoDB {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/eurekabank";
-    private static final String USER = "root";
-    private static final String PASS = "";
+    private static final String URL = "jdbc:mysql://eurekabank.clmuysi2e4en.us-east-2.rds.amazonaws.com:3306/eurekabank?useSSL=false&allowPublicKeyRetrieval=true";
+    private static final String USER = "admin";
+    private static final String PASS = "Arielalma31..";
     public AccesoDB() {
     }
 

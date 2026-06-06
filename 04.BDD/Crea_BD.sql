@@ -308,11 +308,11 @@ CREATE TABLE Contador (
 ) ENGINE = INNODB ;
 
 
-USE MYSQL;
-CREATE USER 'eureka'@'%' IDENTIFIED BY 'admin';
-CREATE USER 'eureka'@'localhost' IDENTIFIED BY 'admin';
+-- Crear el usuario 'eureka' para tu aplicación
+CREATE USER IF NOT EXISTS 'eureka'@'%' IDENTIFIED BY 'admin';
 
-GRANT ALL PRIVILEGES ON *.* TO 'eureka'@'%' WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON *.* TO 'eureka'@'localhost' WITH GRANT OPTION;
+-- Darle todos los privilegios SOLO a la base de datos del proyecto
+GRANT ALL PRIVILEGES ON eurekabank.* TO 'eureka'@'%';
+
+-- Aplicar los cambios
 FLUSH PRIVILEGES;
-USE EUREKABANK;
